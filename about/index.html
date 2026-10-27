@@ -70,21 +70,21 @@ var css='.qf-ov{position:fixed;inset:0;z-index:99999;background:rgba(11,21,48,.7
 '.qf-card h3{margin:0 0 6px;font-size:20px;line-height:1.35}.qf-card p{margin:4px 0 0;color:var(--muted,#5b6476)}.qf-step{font-size:15px;min-height:1.5em}'+
 '@keyframes qfspin{to{transform:rotate(360deg)}}@media (prefers-reduced-motion:reduce){.qf-spin{animation:none;border-color:var(--accent,#1d4ed8)}}';
 var st=document.createElement('style');st.textContent=css;document.head.appendChild(st);
-var ov=null,cyc=null,steps=['Checking availability in your area\u2026','Matching truck options\u2026','Almost done\u2026'];
+var ov=null,cyc=null,steps=['Sending your details\u2026','Checking availability in your area\u2026','Matching truck options\u2026','Almost done\u2026'];
 function show(){if(!ov){ov=document.createElement('div');ov.className='qf-ov';ov.setAttribute('role','status');ov.setAttribute('aria-live','polite');
 ov.innerHTML='<div class="qf-card"><div class="qf-spin" aria-hidden="true"></div><h3>Connecting your request with local mobile billboard operators\u2026</h3><p>Please stand by.</p><p class="qf-step"></p></div>';document.body.appendChild(ov);}
-var el=ov.querySelector('.qf-step'),i=0;el.textContent=steps[0];ov.classList.add('on');clearInterval(cyc);cyc=setInterval(function(){i=Math.min(i+1,steps.length-1);el.textContent=steps[i];},800);}
+var el=ov.querySelector('.qf-step'),i=0;el.textContent=steps[0];ov.classList.add('on');clearInterval(cyc);cyc=setInterval(function(){i=Math.min(i+1,steps.length-1);el.textContent=steps[i];},1200);}
 function hide(){if(ov)ov.classList.remove('on');clearInterval(cyc);}
 window.addEventListener('pageshow',function(e){if(e.persisted){hide();document.querySelectorAll('form.qf').forEach(function(f){delete f.dataset.sending;var b=f.querySelector('button[type="submit"]');if(b){b.disabled=false;b.textContent='Get free quotes';}});}});
 document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.classList||!f.classList.contains('qf'))return;
 try{e.preventDefault();var hp=f.querySelector('input[name="_honey"]');if(hp&&hp.value)return;
 if(f.dataset.sending)return;f.dataset.sending='1';
 var b=f.querySelector('button[type="submit"]');if(b){b.disabled=true;b.textContent='Sending\u2026';}
-show();var t0=Date.now(),n=f.querySelector('input[name="_next"]'),next=n?n.value:'/thank-you/',gone=false,timer,mt;
-var go=function(){if(gone)return;var w=1200-(Date.now()-t0);if(w>0){if(!mt)mt=setTimeout(go,w);return;}gone=true;clearTimeout(timer);clearTimeout(mt);window.location.href=next;};
-timer=setTimeout(go,2500);
+show();var n=f.querySelector('input[name="_next"]'),next=n?n.value:'/thank-you/',gone=false,timer;
+var go=function(){if(gone)return;gone=true;clearTimeout(timer);window.location.href=next;};
+timer=setTimeout(go,5000);
 fetch('https://formsubmit.co/ajax/quotes@mobilebillboards.com',{method:'POST',body:new FormData(f),headers:{Accept:'application/json'},keepalive:true,mode:'cors'})
-.then(function(){go();},function(){if(gone)return;gone=true;clearTimeout(timer);clearTimeout(mt);HTMLFormElement.prototype.submit.call(f);});
+.then(function(){},function(){if(gone)return;gone=true;clearTimeout(timer);HTMLFormElement.prototype.submit.call(f);});
 }catch(err){HTMLFormElement.prototype.submit.call(f);}
 });})();
 </script>
