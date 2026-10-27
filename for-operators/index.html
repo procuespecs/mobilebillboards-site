@@ -61,6 +61,20 @@
 <button class="btn" type="submit">Get free quotes</button>
 <p class="privacy">By submitting, you agree that we may share the details above with partner mobile billboard operators so they can contact you with quotes. We don’t sell your information for unrelated marketing. See our <a href="/privacy/">privacy note</a>.</p>
 </form>
+<script>
+(function(){if(window.__qfInit)return;window.__qfInit=1;
+document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.classList||!f.classList.contains('qf'))return;
+try{e.preventDefault();var hp=f.querySelector('input[name="_honey"]');if(hp&&hp.value)return;
+if(f.dataset.sending)return;f.dataset.sending='1';
+var b=f.querySelector('button[type="submit"]');if(b){b.disabled=true;b.textContent='Sending\u2026';}
+var n=f.querySelector('input[name="_next"]'),next=n?n.value:'/thank-you/',gone=false,timer;
+var go=function(){if(gone)return;gone=true;clearTimeout(timer);window.location.href=next;};
+timer=setTimeout(go,2000);
+fetch('https://formsubmit.co/ajax/quotes@mobilebillboards.com',{method:'POST',body:new FormData(f),headers:{Accept:'application/json'},keepalive:true,mode:'cors'})
+.then(function(){go();},function(){if(gone)return;gone=true;clearTimeout(timer);HTMLFormElement.prototype.submit.call(f);});
+}catch(err){HTMLFormElement.prototype.submit.call(f);}
+});})();
+</script>
 </div></section>
 </main>
 <footer><div class="wrap">
