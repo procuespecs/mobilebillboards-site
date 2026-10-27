@@ -74,18 +74,6 @@
 <button class="btn" type="submit">Get free quotes</button>
 <p class="privacy">By submitting, you agree that we may share the details above with partner mobile billboard operators so they can contact you with quotes. We don’t sell your information for unrelated marketing. See our <a href="/privacy/">privacy note</a>.</p>
 </form>
-<script>
-(function(){if(window.__qfInit||!window.fetch||!window.FormData)return;window.__qfInit=1;
-document.querySelectorAll('form.qf').forEach(function(f){f.addEventListener('submit',function(e){
-e.preventDefault();var n=f.querySelector('input[name="_next"]'),next=n?n.value:'/thank-you/',hp=f.querySelector('input[name="_honey"]');
-if(hp&&hp.value){location.href=next;return;}
-if(f.dataset.sending)return;f.dataset.sending='1';var b=f.querySelector('button[type="submit"]'),t=b?b.textContent:'';
-if(b){b.disabled=true;b.textContent='Sending\u2026';}
-var done=false,fail=function(){if(done)return;done=true;if(b){b.disabled=false;b.textContent=t;}HTMLFormElement.prototype.submit.call(f);};
-fetch('https://formsubmit.co/ajax/'+f.getAttribute('data-lead-email'),{method:'POST',headers:{'Accept':'application/json'},body:new FormData(f)})
-.then(function(r){return r.ok?r.json():null;}).then(function(d){if(d&&(d.success===true||d.success==='true')){done=true;location.href=next;}else fail();})
-.catch(fail);});});})();
-</script>
 </div></section>
 </main>
 <footer><div class="wrap">
